@@ -38,7 +38,7 @@ const Container = styled.main`
 const TextHolder = styled.div`
   width: 341px;
   position: fixed;
-  top: 33px;
+  top: 30px;
   left: calc((100% - 341px) / 2);
   z-index: 1;
   h1 {
@@ -67,7 +67,7 @@ const ButtonHolder = styled.div`
   flex-direction: column;
   align-items: center;
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: calc((100% - 202px) / 2);
 `;
 
