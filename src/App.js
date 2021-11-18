@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./assets/styles/GlobalStyle";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -11,14 +11,14 @@ function App() {
   return (
     <Router>
       <GlobalStyle />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/plans" component={Plans} />
-        <Route exact path="/details" component={Details} />
-        <Route exact path="/subscription" component={Subscription} />
-      </Switch>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/sign-up" element={<SignUp />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/plans" element={<Plans />} />
+        <Route exact path="/details" element={<Details />} />
+        <Route exact path="/subscription" element={<Subscription />} />
+      </Routes>
     </Router>
   );
 }
