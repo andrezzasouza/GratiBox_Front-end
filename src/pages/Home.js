@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <Container>
       <img src={home} alt="Girl meditating" />
-      {/* <Contents> */}
       <TextHolder>
         <h1>Bem-vindo ao Gratibox</h1>
         <p>
@@ -22,7 +21,6 @@ export default function Home() {
           <TransparentButton type="button">Já sou grato</TransparentButton>
         </Link>
       </ButtonHolder>
-      {/* </Contents> */}
     </Container>
   );
 }
@@ -36,13 +34,6 @@ const Container = styled.main`
     width: 100%;
   }
 `;
-
-// const Contents = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   align-items: center;
-// `;
 
 const TextHolder = styled.div`
   width: 341px;
