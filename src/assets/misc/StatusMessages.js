@@ -25,4 +25,26 @@ const signUpErr = (err) => {
   return serverMessage;
 };
 
-export { signUpErr, matchPasswords };
+const loginErr = (err) => {
+  // prepare for login
+  const { status } = err.response;
+  const { message } = err.response.data;
+  let serverMessage = '';
+  let displayMessage = '';
+
+  if (status === 400) {
+    if (message.includes('email')) {
+      displayMessage =
+        'E-mail inválido. Por favor, verifique e tente novamente';
+    } else if (message.includes('password')) {
+      displayMessage = 'A senha deve ter pelo menos 6 caracteres.';
+    }
+    serverMessage = displayMessage;
+  }
+  if (status === 404 || status === 500) {
+    serverMessage = message;
+  }
+  return serverMessage;
+};
+
+export { signUpErr, matchPasswords, loginErr };

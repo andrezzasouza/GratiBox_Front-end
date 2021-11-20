@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "http://localhost:4000";
+const API_URL = 'http://localhost:4000';
 
 // const createHeaders = (token) => ({
 //   headers: {
@@ -9,5 +9,6 @@ const API_URL = "http://localhost:4000";
 // });
 
 const signUp = (body) => axios.post(`${API_URL}/sign-up`, body);
+const login = (body) => axios.post(`${API_URL}/login`, body);
 
-export { signUp };
+export { signUp, login };
