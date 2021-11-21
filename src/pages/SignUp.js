@@ -26,7 +26,7 @@ export default function SignUp() {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('userData')) {
+    if (localStorage.getItem('loginData')) {
       navigate('/home');
     }
   }, []);
@@ -72,7 +72,10 @@ export default function SignUp() {
     <EnterHolder>
       {hide ? (
         <>
-          <img src={lotus} alt="Imagem de uma flor de lotus" />
+          <img
+            src={lotus}
+            alt="Imagem de uma pessoa com uma flor de lotus atrás"
+          />
           <SuccessHeading>Conta criada com sucesso!</SuccessHeading>
           <StatusMessage>
             Sua jornada de gratidão vai começar! Estamos te redirecionando para
