@@ -26,8 +26,13 @@ export default function Login() {
   const { setUserData } = useContext(UserContext);
 
   useEffect(() => {
-    if (localStorage.getItem('loginData')) {
-      navigate('/home');
+    const userLogin = JSON.parse(localStorage.getItem('loginData'));
+    if (userLogin.name) {
+      if (userLogin.plan === null) {
+        navigate('/plans');
+      } else {
+        navigate('/details');
+      }
     }
   }, []);
 
