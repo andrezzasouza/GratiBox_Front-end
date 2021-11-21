@@ -26,7 +26,6 @@ const signUpErr = (err) => {
 };
 
 const loginErr = (err) => {
-  // prepare for login
   const { status } = err.response;
   const { message } = err.response.data;
   let serverMessage = '';
@@ -41,7 +40,7 @@ const loginErr = (err) => {
     }
     serverMessage = displayMessage;
   }
-  if (status === 404 || status === 500) {
+  if (status === 404 || status === 401 || status === 500) {
     serverMessage = message;
   }
   return serverMessage;

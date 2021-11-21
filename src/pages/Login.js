@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 
@@ -14,6 +14,7 @@ import {
 } from '../assets/styles/EnterStyle';
 import Welcome from '../components/Welcome';
 import lotus from '../assets/images/lotus.gif';
+import UserContext from '../contexts/UserContext';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -22,9 +23,10 @@ export default function Login() {
   const [enabled, setEnabled] = useState(true);
   const [message, setMessage] = useState('');
   const [hide, setHide] = useState(false);
+  const { setUserData } = useContext(UserContext);
 
   useEffect(() => {
-    if (localStorage.getItem('userData')) {
+    if (localStorage.getItem('loginData')) {
       navigate('/home');
     }
   }, []);
@@ -45,12 +47,17 @@ export default function Login() {
     };
 
     login(body)
-      .then(() => {
+      .then((res) => {
         setHide(true);
         setEmail('');
         setPassword('');
-        // check if user already has a signature before redirecting to plans or details
-        setTimeout(() => navigate('/plans'), 5000);
+        setUserData(res.data);
+        localStorage.setItem('loginData', JSON.stringify(res.data));
+        if (res.data.plan === null) {
+          setTimeout(() => navigate('/plans'), 5000);
+        } else {
+          setTimeout(() => navigate('/details'), 5000);
+        }
       })
       .catch((err) => {
         alterMsg(loginErr(err));
