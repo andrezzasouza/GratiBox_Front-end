@@ -26,8 +26,13 @@ export default function SignUp() {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('loginData')) {
-      navigate('/home');
+    const userLogin = JSON.parse(localStorage.getItem('loginData'));
+    if (userLogin.name) {
+      if (userLogin.plan === null) {
+        navigate('/plans');
+      } else {
+        navigate('/details');
+      }
     }
   }, []);
 
