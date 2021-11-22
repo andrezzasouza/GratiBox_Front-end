@@ -2,6 +2,9 @@ const matchPasswords =
   'Os campos "Senha" e "Confirmação de senha" precisam ter os mesmos valores. Digite novamente, por favor.';
 
 const signUpErr = (err) => {
+  if (!err.response) {
+    return 'Algo deu errado. Por favor, tente novamente.';
+  }
   const { status } = err.response;
   const { message } = err.response.data;
   let serverMessage = '';
@@ -26,6 +29,9 @@ const signUpErr = (err) => {
 };
 
 const loginErr = (err) => {
+  if (!err.response) {
+    return 'Algo deu errado. Por favor, tente novamente.';
+  }
   const { status } = err.response;
   const { message } = err.response.data;
   let serverMessage = '';
