@@ -19,7 +19,7 @@ export default function Details() {
   const userInfo = JSON.parse(localStorage.getItem('loginData'));
 
   useEffect(() => {
-    updateStorage(userInfo.token)
+    updateStorage(userInfo?.token)
       .then((res) => {
         setUserData(res.data);
         localStorage.setItem('loginData', JSON.stringify(res.data));
@@ -28,7 +28,7 @@ export default function Details() {
       .catch(() => {
         setWarning('Algo deu errado. Tente novamente.');
       });
-  });
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('loginData')) {
@@ -51,7 +51,7 @@ export default function Details() {
     deliveryDay.getDay();
 
     if (type === 'semanal') {
-      // do sth
+      //
     } else if (type === 'mensal') {
       // do sth
     }
