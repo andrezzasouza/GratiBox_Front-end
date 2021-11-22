@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ImArrowDown2, ImArrowUp2 } from 'react-icons/im';
 import { InnerBigContainer, TopText } from '../assets/styles/PlanStyle';
+import { updateStorage } from '../services/api';
+import UserContext from '../contexts/UserContext';
 import OrderContext from '../contexts/OrderContext';
 import Greeting from '../components/Greeting';
 import imgSubscription from '../assets/images/image03.jpg';
@@ -11,6 +13,7 @@ export default function Subscription() {
   const location = useLocation();
   const navigate = useNavigate();
   const { setOrderInfo } = useContext(OrderContext);
+  const { setUserData } = useContext(UserContext);
 
   const [planType, setPlanType] = useState('Plano');
   const [openPlanList, setOpenPlanList] = useState(false);
@@ -21,6 +24,7 @@ export default function Subscription() {
   const [incense, setIncense] = useState(false);
   const [organic, setOrganic] = useState(false);
 
+  const userInfo = JSON.parse(localStorage.getItem('loginData'));
   const subscriptionData = {};
 
   const validType = planType === 'Mensal' || planType === 'Semanal';
@@ -35,9 +39,17 @@ export default function Subscription() {
         chooseDay === 'Quarta' ||
         chooseDay === 'Sexta'));
 
-  if (!localStorage.getItem('loginData')) {
-    navigate('/');
-  }
+  useEffect(() => {
+    updateStorage(userInfo.token)
+      .then((res) => {
+        setUserData(res.data);
+        setWarning('');
+        localStorage.setItem('loginData', JSON.stringify(res.data));
+      })
+      .catch(() => {
+        setWarning('Algo deu errado. Tente novamente.');
+      });
+  });
 
   useEffect(() => {
     if (location.search.includes('weekly')) {

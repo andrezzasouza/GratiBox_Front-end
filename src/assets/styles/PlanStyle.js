@@ -16,6 +16,16 @@ const TopText = styled.p`
   margin: 0 0 51px;
 `;
 
+const WarningBox = styled.div`
+  width: 290px;
+  margin: 15px calc((100% - 290px) / 2);
+  p {
+    color: #ffffff;
+    text-align: center;
+    width: 90%;
+  }
+`;
+
 const PlanBox = styled.div`
   width: 100%;
   background: #e5cdb3;
@@ -56,4 +66,4 @@ const SubscribeButton = styled.button`
   cursor: pointer;
 `;
 
-export { InnerBigContainer, TopText, PlanBox, SubscribeButton };
+export { InnerBigContainer, TopText, PlanBox, SubscribeButton, WarningBox };
