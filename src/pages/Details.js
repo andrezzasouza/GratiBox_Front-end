@@ -43,11 +43,14 @@ export default function Details() {
           <PlanDataContainer>
             <p>
               Plano:
-              <span> {planInfo ? planInfo.name : '@tipo_de_plano'}</span>
+              <span> {planInfo.name ? planInfo.name : '@tipo_de_plano'}</span>
             </p>
             <p>
               Data da assinatura:
-              <span> dd/mm/aa</span>
+              <span>
+                {' '}
+                {planInfo.signature ? planInfo.signature : 'dd/mm/aa'}
+              </span>
             </p>
             <p>Próximas entregas:</p>
             <NextDeliveries>
@@ -63,7 +66,13 @@ export default function Details() {
             </NextDeliveries>
             <ProductsDiv>
               <p>
-                <span>Produtos</span>
+                <span>
+                  {planInfo.products.length >= 1
+                    ? planInfo.products.map((item, index) => (
+                        <p key={index}>{item}</p>
+                      ))
+                    : 'Produtos'}
+                </span>
               </p>
             </ProductsDiv>
           </PlanDataContainer>
