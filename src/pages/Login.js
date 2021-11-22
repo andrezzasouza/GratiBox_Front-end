@@ -33,6 +33,8 @@ export default function Login() {
       } else {
         navigate('/details');
       }
+    } else {
+      console.log('oi');
     }
   }, []);
 
