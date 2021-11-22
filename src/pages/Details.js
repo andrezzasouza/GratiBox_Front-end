@@ -10,6 +10,7 @@ export default function Details() {
   const navigate = useNavigate();
   const [warning, setWarning] = useState('');
   const [planInfo, setPlanInfo] = useState({});
+  const [planType, setPlanType] = useState('');
 
   if (!localStorage.getItem('loginData')) {
     navigate('/');
@@ -21,7 +22,22 @@ export default function Details() {
     const userLogin = JSON.parse(localStorage.getItem('loginData'));
     details(userLogin.token)
       .then((res) => {
+        console.log(res.data);
         setPlanInfo(res.data);
+        const delivery = res.data[0].day;
+        if (
+          delivery === 'Segunda' ||
+          delivery === 'Quarta' ||
+          delivery === 'Sexta'
+        ) {
+          setPlanType('semanal');
+        } else if (
+          delivery === 'Dia 01' ||
+          delivery === 'Dia 10' ||
+          delivery === 'Dia 20'
+        ) {
+          setPlanType('mensal');
+        }
       })
       .catch((err) => {
         setWarning(err.response.data.message);
@@ -43,13 +59,14 @@ export default function Details() {
           <PlanDataContainer>
             <p>
               Plano:
-              <span> {planInfo.name ? planInfo.name : '@tipo_de_plano'}</span>
+              <span> {planType ? planType : '@tipo_de_plano'}</span>
             </p>
             <p>
               Data da assinatura:
               <span>
-                {' '}
-                {planInfo.signature ? planInfo.signature : 'dd/mm/aa'}
+                {planInfo[0].subscription_date
+                  ? planInfo[0].subscription_date
+                  : 'dd/mm/aa'}
               </span>
             </p>
             <p>Próximas entregas:</p>
@@ -67,9 +84,11 @@ export default function Details() {
             <ProductsDiv>
               <p>
                 <span>
-                  {planInfo.products.length >= 1
-                    ? planInfo.products.map((item, index) => (
-                        <p key={index}>{item}</p>
+                  {planInfo[0].name
+                    ? planInfo.map((product) => (
+                        <p>
+                          <span>{product.name}</span>
+                        </p>
                       ))
                     : 'Produtos'}
                 </span>
@@ -78,6 +97,9 @@ export default function Details() {
           </PlanDataContainer>
         )}
       </SubscriptionBox>
+      <WarningBox>
+        <p>{warning}</p>
+      </WarningBox>
       <Rate type="button">Avaliar entregas</Rate>
     </InnerBigContainer>
   );
@@ -126,6 +148,16 @@ const ProductsDiv = styled.div`
   margin: 29px 0 0;
   p {
     font-weight: 400;
+  }
+`;
+
+const WarningBox = styled.div`
+  width: 290px;
+  margin: 15px calc((100% - 290px) / 2);
+  p {
+    color: #ffffff;
+    text-align: center;
+    width: 90%;
   }
 `;
 
