@@ -22,7 +22,7 @@ export default function Plans() {
   const userInfo = JSON.parse(localStorage.getItem('loginData'));
 
   useEffect(() => {
-    updateStorage(userInfo.token)
+    updateStorage(userInfo?.token)
       .then((res) => {
         setUserData(res.data);
         setWarning('');
@@ -31,7 +31,7 @@ export default function Plans() {
       .catch(() => {
         setWarning('Algo deu errado. Tente novamente.');
       });
-  });
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('loginData')) {

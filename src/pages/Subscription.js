@@ -40,7 +40,7 @@ export default function Subscription() {
         chooseDay === 'Sexta'));
 
   useEffect(() => {
-    updateStorage(userInfo.token)
+    updateStorage(userInfo?.token)
       .then((res) => {
         setUserData(res.data);
         setWarning('');
@@ -49,7 +49,7 @@ export default function Subscription() {
       .catch(() => {
         setWarning('Algo deu errado. Tente novamente.');
       });
-  });
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('loginData')) {
