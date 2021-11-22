@@ -27,7 +27,7 @@ export default function SignUp() {
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem('loginData'));
-    if (userLogin.name) {
+    if (userLogin) {
       if (userLogin.plan === null) {
         navigate('/plans');
       } else {
