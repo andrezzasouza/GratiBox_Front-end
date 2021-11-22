@@ -12,5 +12,7 @@ const signUp = (body) => axios.post(`${API_URL}/sign-up`, body);
 const login = (body) => axios.post(`${API_URL}/login`, body);
 const details = (token) =>
   axios.get(`${API_URL}/details`, createHeaders(token));
+const placeOrder = (body, token) =>
+  axios.post(`${API_URL}/place-order`, body, createHeaders(token));
 
-export { signUp, login, details };
+export { signUp, login, placeOrder, details };
