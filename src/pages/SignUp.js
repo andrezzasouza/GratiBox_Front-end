@@ -66,6 +66,9 @@ export default function SignUp() {
         .catch((err) => {
           alterMsg(signUpErr(err));
           setEnabled(true);
+          if (err.response.status === 409) {
+            setTimeout(() => navigate('/login'), 5000);
+          }
         });
     } else {
       setEnabled(true);
