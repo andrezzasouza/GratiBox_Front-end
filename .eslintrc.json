@@ -44,7 +44,10 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
+    "react/no-array-index-key": "off",
     "import/prefer-default-export": "off",
-    "no-unneeded-ternary": "off"
+    "no-unneeded-ternary": "off",
+    "no-nested-ternary": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   }
 }
