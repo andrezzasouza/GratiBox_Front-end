@@ -52,6 +52,14 @@ export default function Subscription() {
   });
 
   useEffect(() => {
+    if (!localStorage.getItem('loginData')) {
+      navigate('/');
+    } else if (userInfo.plan !== null) {
+      navigate('/details');
+    }
+  }, []);
+
+  useEffect(() => {
     if (location.search.includes('weekly')) {
       setPlanType('Semanal');
     } else if (location.search.includes('monthly')) {
