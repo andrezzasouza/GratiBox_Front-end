@@ -1,15 +1,32 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { details } from '../services/api';
 import { InnerBigContainer, TopText } from '../assets/styles/PlanStyle';
 import Greeting from '../components/Greeting';
 import imgSubscription from '../assets/images/image03.jpg';
 
 export default function Details() {
   const navigate = useNavigate();
+  const [warning, setWarning] = useState('');
+  const [planInfo, setPlanInfo] = useState({});
 
   if (!localStorage.getItem('loginData')) {
     navigate('/');
   }
+
+  // redirect if user has no plan yet
+
+  useEffect(() => {
+    const userLogin = JSON.parse(localStorage.getItem('loginData'));
+    details(userLogin.token)
+      .then((res) => {
+        setPlanInfo(res.data);
+      })
+      .catch((err) => {
+        setWarning(err.response.data.message);
+      });
+  }, []);
 
   return (
     <InnerBigContainer>
@@ -20,33 +37,37 @@ export default function Details() {
           src={imgSubscription}
           alt="Menina meditando com uma planta do lado."
         />
-        <PlanDataContainer>
-          <p>
-            Plano:
-            <span> @tipo_de_plano</span>
-          </p>
-          <p>
-            Data da assinatura:
-            <span> dd/mm/aa</span>
-          </p>
-          <p>Próximas entregas:</p>
-          <NextDeliveries>
+        {warning ? (
+          warning
+        ) : (
+          <PlanDataContainer>
             <p>
-              <span>dd/mm/aaaa</span>
+              Plano:
+              <span> {planInfo ? planInfo.name : '@tipo_de_plano'}</span>
             </p>
             <p>
-              <span>dd/mm/aaaa</span>
+              Data da assinatura:
+              <span> dd/mm/aa</span>
             </p>
-            <p>
-              <span>dd/mm/aaaa</span>
-            </p>
-          </NextDeliveries>
-          <ProductsDiv>
-            <p>
-              <span>PRODUTOSSSSS</span>
-            </p>
-          </ProductsDiv>
-        </PlanDataContainer>
+            <p>Próximas entregas:</p>
+            <NextDeliveries>
+              <p>
+                <span>dd/mm/aaaa</span>
+              </p>
+              <p>
+                <span>dd/mm/aaaa</span>
+              </p>
+              <p>
+                <span>dd/mm/aaaa</span>
+              </p>
+            </NextDeliveries>
+            <ProductsDiv>
+              <p>
+                <span>Produtos</span>
+              </p>
+            </ProductsDiv>
+          </PlanDataContainer>
+        )}
       </SubscriptionBox>
       <Rate type="button">Avaliar entregas</Rate>
     </InnerBigContainer>
@@ -94,6 +115,9 @@ const NextDeliveries = styled.div`
 
 const ProductsDiv = styled.div`
   margin: 29px 0 0;
+  p {
+    font-weight: 400;
+  }
 `;
 
 const Rate = styled.button`
