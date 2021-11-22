@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { details, updateStorage } from '../services/api';
 import { InnerBigContainer, TopText } from '../assets/styles/PlanStyle';
 import UserContext from '../contexts/UserContext';
+import OrderContext from '../contexts/OrderContext';
 import Greeting from '../components/Greeting';
 import imgSubscription from '../assets/images/image03.jpg';
 
@@ -15,6 +16,7 @@ export default function Details() {
   const [formattedDate, setFormattedDate] = useState('');
   const [planType, setPlanType] = useState('');
   const { setUserData } = useContext(UserContext);
+  const { orderInfo } = useContext(OrderContext);
 
   const userInfo = JSON.parse(localStorage.getItem('loginData'));
 
@@ -33,8 +35,13 @@ export default function Details() {
   useEffect(() => {
     if (!localStorage.getItem('loginData')) {
       navigate('/');
-    } else if (userInfo.plan === null) {
-      navigate('/plans');
+    }
+    if (!orderInfo?.type) {
+      if (userInfo.plan === null) {
+        navigate('/plans');
+      } else {
+        navigate('/details');
+      }
     }
   }, []);
 
@@ -118,17 +125,13 @@ export default function Details() {
               </p>
             </NextDeliveries>
             <ProductsDiv>
-              <p>
-                <span>
-                  {planInfo[0]?.name
-                    ? planInfo.map((product) => (
-                        <p>
-                          <span>{product.name}</span>
-                        </p>
-                      ))
-                    : 'Produtos'}
-                </span>
-              </p>
+              {planInfo[0]?.name
+                ? planInfo.map((product) => (
+                    <p>
+                      <span>{product.name}</span>
+                    </p>
+                  ))
+                : 'Produtos'}
             </ProductsDiv>
           </PlanDataContainer>
         )}
@@ -182,6 +185,8 @@ const NextDeliveries = styled.div`
 
 const ProductsDiv = styled.div`
   margin: 29px 0 0;
+  display: flex;
+  justify-content: space-between;
   p {
     font-weight: 400;
   }
