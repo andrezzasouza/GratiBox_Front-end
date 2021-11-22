@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { details } from '../services/api';
+import { details, updateStorage } from '../services/api';
 import { InnerBigContainer, TopText } from '../assets/styles/PlanStyle';
+import UserContext from '../contexts/UserContext';
 import Greeting from '../components/Greeting';
 import imgSubscription from '../assets/images/image03.jpg';
 
@@ -10,19 +12,55 @@ export default function Details() {
   const navigate = useNavigate();
   const [warning, setWarning] = useState('');
   const [planInfo, setPlanInfo] = useState({});
+  const [formattedDate, setFormattedDate] = useState('');
   const [planType, setPlanType] = useState('');
+  const { setUserData } = useContext(UserContext);
 
-  if (!localStorage.getItem('loginData')) {
-    navigate('/');
+  const userInfo = JSON.parse(localStorage.getItem('loginData'));
+
+  useEffect(() => {
+    updateStorage(userInfo.token)
+      .then((res) => {
+        setUserData(res.data);
+        localStorage.setItem('loginData', JSON.stringify(res.data));
+        setWarning('');
+      })
+      .catch(() => {
+        setWarning('Algo deu errado. Tente novamente.');
+      });
+  });
+
+  useEffect(() => {
+    if (!localStorage.getItem('loginData')) {
+      navigate('/');
+    } else if (userInfo.plan === null) {
+      navigate('/plans');
+    }
+  }, []);
+
+  function formatDate(date) {
+    const newDate = dayjs(date).format(' DD/MM/YYYY');
+    console.log(newDate);
+    setFormattedDate(newDate);
   }
 
-  // redirect if user has no plan yet
+  function generateNextDates(type, deliveryDay) {
+    const today = Date.now();
+    console.log(today);
+    today.getDay();
+    deliveryDay.getDay();
+
+    if (type === 'semanal') {
+      // do sth
+    } else if (type === 'mensal') {
+      // do sth
+    }
+  }
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem('loginData'));
     details(userLogin.token)
       .then((res) => {
-        console.log(res.data);
         setPlanInfo(res.data);
         const delivery = res.data[0].day;
         if (
@@ -38,9 +76,11 @@ export default function Details() {
         ) {
           setPlanType('mensal');
         }
+        formatDate(res?.data[0].subscription_date);
+        generateNextDates(planType, delivery);
       })
       .catch((err) => {
-        setWarning(err.response.data.message);
+        setWarning(err.response?.data.message);
       });
   }, []);
 
@@ -63,11 +103,7 @@ export default function Details() {
             </p>
             <p>
               Data da assinatura:
-              <span>
-                {planInfo[0].subscription_date
-                  ? planInfo[0].subscription_date
-                  : 'dd/mm/aa'}
-              </span>
+              <span>{formattedDate ? formattedDate : 'dd/mm/aa'}</span>
             </p>
             <p>Próximas entregas:</p>
             <NextDeliveries>
@@ -84,7 +120,7 @@ export default function Details() {
             <ProductsDiv>
               <p>
                 <span>
-                  {planInfo[0].name
+                  {planInfo[0]?.name
                     ? planInfo.map((product) => (
                         <p>
                           <span>{product.name}</span>

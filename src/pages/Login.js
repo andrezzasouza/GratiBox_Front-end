@@ -34,7 +34,7 @@ export default function Login() {
         navigate('/details');
       }
     } else {
-      console.log('oi');
+      // should i do something here?
     }
   }, []);
 

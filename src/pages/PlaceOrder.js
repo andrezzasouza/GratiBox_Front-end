@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ImArrowDown2, ImArrowUp2 } from 'react-icons/im';
 import { InnerBigContainer, TopText } from '../assets/styles/PlanStyle';
-import { placeOrder } from '../services/api';
+import { placeOrder, updateStorage } from '../services/api';
+import UserContext from '../contexts/UserContext';
 import OrderContext from '../contexts/OrderContext';
 import Greeting from '../components/Greeting';
 import imgSubscription from '../assets/images/image03.jpg';
@@ -11,6 +12,7 @@ import imgSubscription from '../assets/images/image03.jpg';
 export default function PlaceOrder() {
   const navigate = useNavigate();
   const { orderInfo } = useContext(OrderContext);
+  const { setUserData } = useContext(UserContext);
 
   const [openStateList, setOpenStateList] = useState(false);
   const [warning, setWarning] = useState('');
@@ -24,6 +26,17 @@ export default function PlaceOrder() {
 
   const cepMask = (cepFormat) => cepFormat.replace(/(\d{5})(\d{3})/, '$1-$2');
   const userInfo = JSON.parse(localStorage.getItem('loginData'));
+
+  useEffect(() => {
+    updateStorage(userInfo.token)
+      .then((res) => {
+        setUserData(res.data);
+        localStorage.setItem('loginData', JSON.stringify(res.data));
+      })
+      .catch(() => {
+        setWarning('Algo deu errado. Tente novamente.');
+      });
+  });
 
   useEffect(() => {
     if (!localStorage.getItem('loginData')) {

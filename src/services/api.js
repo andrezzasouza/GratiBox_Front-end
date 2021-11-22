@@ -14,5 +14,6 @@ const details = (token) =>
   axios.get(`${API_URL}/details`, createHeaders(token));
 const placeOrder = (body, token) =>
   axios.post(`${API_URL}/place-order`, body, createHeaders(token));
-
-export { signUp, login, placeOrder, details };
+const updateStorage = (token) =>
+  axios.get(`${API_URL}/update`, createHeaders(token));
+export { signUp, login, placeOrder, details, updateStorage };
