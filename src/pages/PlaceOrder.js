@@ -82,7 +82,7 @@ export default function PlaceOrder() {
         navigate('/details');
       })
       .catch(() => {
-        setWarning('Mensagem de erro aqui.');
+        setWarning('Algo deu errado. Tente novamente.');
       });
   }
 
