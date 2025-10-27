@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import home from '../assets/images/home.png';
 import Welcome from '../components/Welcome';
 import {
   Container,
@@ -12,7 +11,6 @@ import {
 export default function Home() {
   return (
     <Container>
-      <img src={home} alt="Girl meditating" />
       <TextHolder>
         <Welcome />
         <p>
