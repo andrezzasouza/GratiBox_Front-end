@@ -1,13 +1,10 @@
 import styled from 'styled-components';
+import home from '../assets/images/home.png';
 
 const Container = styled.main`
-  height: 100vh;
-  width: 100vw;
-  img {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-  }
+  height: 100dvh;
+  width: 100dvw;
+  background: url({home}) center no-repeat fixed;
 `;
 
 const TextHolder = styled.div`
