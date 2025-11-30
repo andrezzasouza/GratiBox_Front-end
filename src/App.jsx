@@ -17,6 +17,7 @@ function App() {
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem('loginData'));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (userLogin) setUserData(userLogin);
   }, []);
 

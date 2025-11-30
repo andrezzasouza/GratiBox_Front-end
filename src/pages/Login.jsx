@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Loader from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 
 import { login } from '../services/api';
 import { loginErr } from '../assets/misc/StatusMessages';
@@ -112,13 +112,7 @@ export default function Login() {
               {enabled ? (
                 'Login'
               ) : (
-                <Loader
-                  type="ThreeDots"
-                  color="white"
-                  height={50}
-                  width={100}
-                  timeout={4000}
-                />
+                <ThreeDots color="#FFFFFF" height={50} width={100} />
               )}
             </EnterButton>
           </form>

@@ -94,7 +94,7 @@ export default function Details() {
   return (
     <InnerBigContainer>
       <Greeting />
-      <TopText>“Agradecer é arte de atrair coisas boas”</TopText>
+      <TopText>"Agradecer é arte de atrair coisas boas"</TopText>
       <SubscriptionBox>
         <img
           src={imgSubscription}
